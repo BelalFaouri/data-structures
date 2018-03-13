@@ -4,7 +4,6 @@ var Queue = function() {
   someInstance.storage={};
 
   someInstance.counter=0;
-  someInstance.first=0;
 
   someInstance.enqueue=queueMethods.enqueue;
   someInstance.dequeue=queueMethods.dequeue;
@@ -16,27 +15,26 @@ var Queue = function() {
 
 var queueMethods = {
 	enqueue:function(value){
-		this.counter++;
     	this.storage[this.counter]=value;
+    	this.counter++;
+
 	},
-	dequeue:function(){
-		var tmp='';
-    if(this.counter === 0){                                                        
+	dequeue : function() {
+    if(this.counter === 0){
       return 0;
-    }else if(this.counter === 1){
-      tmp=this.storage[this.counter];
-    delete this.storage[this.counter];
-    this.counter--
-
-    return tmp;
     }
-        this.first++; 
+    
+    var firstElement=this.storage[0];
 
-    tmp=this.storage[this.first];
-    delete this.storage[this.first];
+    for(var key in this.storage){
+      key=(Number(key)-1).toString();
+      this.storage[key]=this.storage[(Number(key)+1).toString()]
+    }
     this.counter--
-    return tmp;
-	},
+
+    return firstElement;
+    
+  },
 	size:function(){
 		return this.counter;
 	}
